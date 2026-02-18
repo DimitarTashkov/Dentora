@@ -39,7 +39,7 @@ namespace Dentora.Models.DbConfiguration
                         Id = Guid.NewGuid(),
                         Username = "admin",
                         Password = "password123",
-                        FullName = "Dr. Admin",
+                        FullName = "Dr. Petrov",
                         Phone = "+359000000000",
                         Email = "admin@dentora.com",
                         AvatarUrl = Path.Combine(Application.StartupPath, "Resources", "admin_avatar")

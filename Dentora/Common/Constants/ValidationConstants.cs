@@ -8,11 +8,11 @@ namespace Dentora.Common.Constants
 {
     public static class ValidationConstants
     {
-        public static class ServiceConstants
+        public static class TreatmentConstants
         {
-            public const int NameMaxLength = 50;
+            public const int NameMaxLength = 100;
             public const int NameMinLength = 3;
-            public const int DescriptionMaxLength = 200;
+            public const int DescriptionMaxLength = 500;
             public const int DescriptionMinLength = 3;
         }
         public static class UserConstants

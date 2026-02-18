@@ -1,4 +1,4 @@
-﻿using System.Drawing.Printing;
+using System.Drawing.Printing;
 
 namespace Dentora.Utilities
 {
@@ -9,7 +9,7 @@ namespace Dentora.Utilities
         private static string _doctorName;
         private static DateTime _date;
 
-        public static void GeneratePrescription(string patientName, string treatmentName, string doctorName = "Dr. Admin")
+        public static void GeneratePrescription(string patientName, string treatmentName, string doctorName = "Dr. Petrov")
         {
             _patientName = patientName;
             _treatmentName = treatmentName;
