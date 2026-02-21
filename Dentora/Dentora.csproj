@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationIcon>Resources\dentora.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -43,9 +44,7 @@
     <Compile Update="Forms\ManageInventory.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Forms\AddEditInventoryItem.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\AddEditInventoryItem.cs" />
     <Compile Update="Forms\ManagePatients.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -53,6 +52,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Forms\FeedbackForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\PatientAppointments.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Properties\Resources.Designer.cs">

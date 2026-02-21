@@ -1,6 +1,7 @@
 using Dentora.Extensions;
 using Dentora.Models;
 using Dentora.Services.Interfaces;
+using Dentora.Utilities;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -14,13 +15,20 @@ namespace Dentora.Forms
         private readonly IReviewService _reviewService;
         private User activeUser;
 
-        public FeedbackForm(IUserService userService, IAppointmentService appointmentService, IReviewService reviewService)
+        public FeedbackForm(IUserService userService)
         {
             InitializeComponent();
             _userService = userService;
-            _appointmentService = appointmentService;
-            _reviewService = reviewService;
+            _appointmentService = ServiceLocator.GetService<IAppointmentService>();
+            _reviewService = ServiceLocator.GetService<IReviewService>();
             activeUser = _userService.GetLoggedInUserAsync();
+            Tag = _userService;
+
+            SidebarHelper.WireClientSidebar(this,
+                (s, e) => Program.SwitchMainForm(new BookAppointment(_userService)),
+                (s, e) => Program.SwitchMainForm(new ClientDashboard(_userService)),
+                (s, e) => { },
+                (s, e) => { _userService.LogoutUser(); Program.SwitchMainForm(new Login(_userService)); });
         }
 
         private void FeedbackForm_Load(object sender, EventArgs e)
@@ -35,7 +43,7 @@ namespace Dentora.Forms
             cmbAppointment.DataSource = completed.Select(a => new
             {
                 a.Id,
-                Display = $"{a.Treatment?.Title} — {a.AppointmentDate:dd MMM yyyy}"
+                Display = $"{a.Treatment?.Title} \u2014 {a.AppointmentDate:dd MMM yyyy}"
             }).ToList();
 
             nudStars.Minimum = 1;
@@ -66,12 +74,7 @@ namespace Dentora.Forms
             };
 
             _reviewService.AddReview(review);
-            MessageBox.Show("Thank you for your feedback!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            Program.SwitchMainForm(new ClientDashboard(_userService));
-        }
-
-        private void btnBack_Click(object sender, EventArgs e)
-        {
+            MessageBox.Show("\u2B50 Thank you for your feedback!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             Program.SwitchMainForm(new ClientDashboard(_userService));
         }
     }

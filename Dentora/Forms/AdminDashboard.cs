@@ -3,7 +3,7 @@ using Dentora.Models;
 using Dentora.Services.Interfaces;
 using Dentora.Utilities;
 using System;
-using System.Drawing;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -16,6 +16,7 @@ namespace Dentora.Forms
         private readonly ITreatmentService _treatmentService;
         private readonly IInventoryService _inventoryService;
         private User activeUser;
+        private List<Appointment> _cachedAppointments;
 
         public AdminDashboard(IUserService userService)
         {
@@ -25,59 +26,82 @@ namespace Dentora.Forms
             _treatmentService = ServiceLocator.GetService<ITreatmentService>();
             _inventoryService = ServiceLocator.GetService<IInventoryService>();
             activeUser = _userService.GetLoggedInUserAsync();
+            Tag = _userService;
+
+            SidebarHelper.WireAdminSidebar(this,
+                (s, e) => RefreshData(),
+                (s, e) => Program.SwitchMainForm(new ManageTreatments(_userService)),
+                (s, e) => Program.SwitchMainForm(new ManageInventory(_userService)),
+                (s, e) => Program.SwitchMainForm(new ManagePatients(_userService)),
+                (s, e) => { _userService.LogoutUser(); Program.SwitchMainForm(new Login(_userService)); });
         }
 
         private void AdminDashboard_Load(object sender, EventArgs e)
         {
-            LoadTodaySchedule();
+            cmbFilter.Items.AddRange(new object[] { "Today", "All Appointments", "Pending", "Completed", "Cancelled" });
+            cmbFilter.SelectedIndex = 0;
         }
 
-        private void LoadTodaySchedule()
+        private void cmbFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var allAppointments = _appointmentService.GetAllAppointments();
-            var today = allAppointments
-                .Where(a => a.AppointmentDate.Date == DateTime.Today && a.Status != "Cancelled")
-                .Select(a => new
-                {
-                    Time = a.AppointmentDate.ToString("HH:mm"),
-                    Patient = a.User?.FullName ?? a.User?.Username ?? "N/A",
-                    Treatment = a.Treatment?.Title ?? "N/A",
-                    Duration = (a.Treatment?.DurationMinutes ?? 0) + " min",
-                    Price = $"{a.TotalPrice:F2}",
-                    a.Status
-                }).ToList();
-
-            dgvSchedule.DataSource = today;
-            dgvSchedule.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            lblDate.Text = $"Today's Schedule — {DateTime.Today:dd MMM yyyy}";
+            RefreshData();
         }
 
-        private void btnTreatments_Click(object sender, EventArgs e)
+        private void RefreshData()
         {
-            Program.SwitchMainForm(new ManageTreatments(_treatmentService));
-        }
+            _cachedAppointments = _appointmentService.GetAllAppointments();
+            string filter = cmbFilter.SelectedItem?.ToString() ?? "Today";
 
-        private void btnInventory_Click(object sender, EventArgs e)
-        {
-            Program.SwitchMainForm(new ManageInventory(_inventoryService));
-        }
+            var filtered = filter switch
+            {
+                "Today" => _cachedAppointments
+                    .Where(a => a.AppointmentDate.Date == DateTime.Today)
+                    .ToList(),
+                "Pending" => _cachedAppointments
+                    .Where(a => a.Status == "Pending")
+                    .ToList(),
+                "Completed" => _cachedAppointments
+                    .Where(a => a.Status == "Completed")
+                    .ToList(),
+                "Cancelled" => _cachedAppointments
+                    .Where(a => a.Status == "Cancelled")
+                    .ToList(),
+                _ => _cachedAppointments
+            };
 
-        private void btnPatients_Click(object sender, EventArgs e)
-        {
-            Program.SwitchMainForm(new ManagePatients(_userService));
+            var data = filtered.Select(a => new
+            {
+                a.Id,
+                Date = a.AppointmentDate.ToString("dd MMM yyyy"),
+                Time = a.AppointmentDate.ToString("HH:mm"),
+                Patient = a.User?.FullName ?? a.User?.Username ?? "N/A",
+                Treatment = a.Treatment?.Title ?? "N/A",
+                Duration = (a.Treatment?.DurationMinutes ?? 0) + " min",
+                Price = $"{a.TotalPrice:F2}",
+                a.Status
+            }).ToList();
+
+            dgvSchedule.DataSource = data;
+
+            if (dgvSchedule.Columns.Contains("Id"))
+                dgvSchedule.Columns["Id"].Visible = false;
+
+            lblDate.Text = filter == "Today"
+                ? $"\U0001F4C5 Schedule \u2014 {DateTime.Today:dd MMM yyyy}  ({data.Count})"
+                : $"\U0001F4C5 {filter}  ({data.Count})";
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-            LoadTodaySchedule();
+            RefreshData();
         }
 
         private void btnCompleteAppointment_Click(object sender, EventArgs e)
         {
             if (dgvSchedule.SelectedRows.Count == 0) return;
 
-            int idx = dgvSchedule.SelectedRows[0].Index;
-            string selectedStatus = dgvSchedule.Rows[idx].Cells["Status"]?.Value?.ToString();
+            var row = dgvSchedule.SelectedRows[0];
+            string selectedStatus = row.Cells["Status"]?.Value?.ToString();
 
             if (selectedStatus != "Pending")
             {
@@ -86,28 +110,57 @@ namespace Dentora.Forms
                 return;
             }
 
-            var allAppointments = _appointmentService.GetAllAppointments();
-            var todayNonCancelled = allAppointments
-                .Where(a => a.AppointmentDate.Date == DateTime.Today && a.Status != "Cancelled")
-                .ToList();
+            var id = (Guid)row.Cells["Id"].Value;
+            var apt = _cachedAppointments.FirstOrDefault(a => a.Id == id);
+            if (apt == null) return;
 
-            if (idx >= 0 && idx < todayNonCancelled.Count)
+            _appointmentService.CompleteAppointment(apt.Id);
+
+            DocumentHelper.GeneratePrescription(
+                apt.User?.FullName ?? apt.User?.Username ?? "Patient",
+                apt.Treatment?.Title ?? "Treatment");
+
+            RefreshData();
+        }
+
+        private void btnCancelAppointment_Click(object sender, EventArgs e)
+        {
+            if (dgvSchedule.SelectedRows.Count == 0) return;
+
+            var row = dgvSchedule.SelectedRows[0];
+            string selectedStatus = row.Cells["Status"]?.Value?.ToString();
+
+            if (selectedStatus != "Pending")
             {
-                var apt = todayNonCancelled[idx];
-                _appointmentService.CompleteAppointment(apt.Id);
+                MessageBox.Show("Only pending appointments can be cancelled.", "Info",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
 
-                DocumentHelper.GeneratePrescription(
-                    apt.User?.FullName ?? apt.User?.Username ?? "Patient",
-                    apt.Treatment?.Title ?? "Treatment");
+            var id = (Guid)row.Cells["Id"].Value;
 
-                LoadTodaySchedule();
+            if (MessageBox.Show("Are you sure you want to cancel this appointment?", "Confirm",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                _appointmentService.CancelAppointment(id);
+                RefreshData();
             }
         }
 
-        private void btnLogout_Click(object sender, EventArgs e)
+        private void btnPrintReport_Click(object sender, EventArgs e)
         {
-            _userService.LogoutUser();
-            Program.SwitchMainForm(new Login(_userService));
+            var allAppointments = _appointmentService.GetAllAppointments();
+            var todayLines = allAppointments
+                .Where(a => a.AppointmentDate.Date == DateTime.Today && a.Status != "Cancelled")
+                .Select(a => (
+                    Time: a.AppointmentDate.ToString("HH:mm"),
+                    Patient: a.User?.FullName ?? a.User?.Username ?? "N/A",
+                    Treatment: a.Treatment?.Title ?? "N/A",
+                    Status: a.Status,
+                    Price: $"{a.TotalPrice:F2}"
+                )).ToList();
+
+            DocumentHelper.GenerateDailyReport(todayLines, DateTime.Today);
         }
     }
 }

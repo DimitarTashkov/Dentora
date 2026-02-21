@@ -73,8 +73,6 @@ namespace Dentora.Services
 
         public async Task<bool> UpdateUserAsync(EditProfileInputModel userModel)
         {
-            if (loggedInUser == null) return false;
-
             using var dbContext = CreateContext();
             var user = await dbContext.Users.FindAsync(userModel.Id);
             if (user == null) return false;

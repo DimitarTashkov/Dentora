@@ -42,6 +42,7 @@ namespace Dentora.Services
                 existing.Description = item.Description;
                 existing.Price = item.Price;
                 existing.Quantity = item.Quantity;
+                existing.Image = item.Image;
                 context.SaveChanges();
             }
         }

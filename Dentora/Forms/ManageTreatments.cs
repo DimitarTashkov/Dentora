@@ -1,6 +1,7 @@
 using Dentora.Models;
 using Dentora.Services.Interfaces;
 using Dentora.Extensions;
+using Dentora.Utilities;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -9,12 +10,22 @@ namespace Dentora.Forms
 {
     public partial class ManageTreatments : Form
     {
+        private readonly IUserService _userService;
         private readonly ITreatmentService _service;
 
-        public ManageTreatments(ITreatmentService service)
+        public ManageTreatments(IUserService userService)
         {
             InitializeComponent();
-            _service = service;
+            _userService = userService;
+            _service = ServiceLocator.GetService<ITreatmentService>();
+            Tag = _userService;
+
+            SidebarHelper.WireAdminSidebar(this,
+                (s, e) => Program.SwitchMainForm(new AdminDashboard(_userService)),
+                (s, e) => { },
+                (s, e) => Program.SwitchMainForm(new ManageInventory(_userService)),
+                (s, e) => Program.SwitchMainForm(new ManagePatients(_userService)),
+                (s, e) => { _userService.LogoutUser(); Program.SwitchMainForm(new Login(_userService)); });
         }
 
         private void ManageTreatments_Load(object sender, EventArgs e)
@@ -32,7 +43,7 @@ namespace Dentora.Forms
                     t.Category,
                     Duration = t.DurationMinutes + " min",
                     Price = $"{t.Price:F2}",
-                    Active = t.IsActive ? "Yes" : "No"
+                    Active = t.IsActive ? "\u2705" : "\u274C"
                 }).ToList();
 
             dgvTreatments.DataSource = treatments;
@@ -58,6 +69,16 @@ namespace Dentora.Forms
             LoadData();
         }
 
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            if (dgvTreatments.SelectedRows.Count == 0) return;
+            var id = (Guid)dgvTreatments.SelectedRows[0].Cells["Id"].Value;
+            var treatment = _service.GetTreatmentById(id);
+            var form = new AddEditTreatment(_service, treatment);
+            form.ShowDialog();
+            LoadData();
+        }
+
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (dgvTreatments.SelectedRows.Count == 0) return;
@@ -67,12 +88,6 @@ namespace Dentora.Forms
                 _service.DeleteTreatment(id);
                 LoadData();
             }
-        }
-
-        private void btnBack_Click(object sender, EventArgs e)
-        {
-            var userService = ServiceLocator.GetService<IUserService>();
-            Program.SwitchMainForm(new AdminDashboard(userService));
         }
     }
 }

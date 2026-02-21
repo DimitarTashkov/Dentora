@@ -27,7 +27,7 @@ namespace Dentora.Models
 
         public int DurationMinutes { get; set; }
 
-        public byte[] Image { get; set; }
+        public byte[]? Image { get; set; }
 
         public decimal Price { get; set; }
 

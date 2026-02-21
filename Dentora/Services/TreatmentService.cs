@@ -32,6 +32,8 @@ namespace Dentora.Services
             if (treatment.Id == Guid.Empty)
                 treatment.Id = Guid.NewGuid();
 
+            treatment.Image ??= Array.Empty<byte>();
+
             context.Treatments.Add(treatment);
             context.SaveChanges();
         }
@@ -45,7 +47,7 @@ namespace Dentora.Services
                 existing.Title = treatment.Title;
                 existing.Category = treatment.Category;
                 existing.Description = treatment.Description;
-                existing.Image = treatment.Image;
+                existing.Image = treatment.Image ?? Array.Empty<byte>();
                 existing.DurationMinutes = treatment.DurationMinutes;
                 existing.Price = treatment.Price;
                 existing.IsActive = treatment.IsActive;

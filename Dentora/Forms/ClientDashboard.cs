@@ -24,11 +24,18 @@ namespace Dentora.Forms
             _treatmentService = ServiceLocator.GetService<ITreatmentService>();
             _reviewService = ServiceLocator.GetService<IReviewService>();
             activeUser = _userService.GetLoggedInUserAsync();
+            Tag = _userService;
+
+            SidebarHelper.WireClientSidebar(this,
+                (s, e) => Program.SwitchMainForm(new BookAppointment(_userService)),
+                (s, e) => LoadMyAppointments(),
+                (s, e) => Program.SwitchMainForm(new FeedbackForm(_userService)),
+                (s, e) => { _userService.LogoutUser(); Program.SwitchMainForm(new Login(_userService)); });
         }
 
         private void ClientDashboard_Load(object sender, EventArgs e)
         {
-            lblWelcome.Text = $"Welcome, {activeUser?.FullName ?? activeUser?.Username ?? "Patient"}!";
+            lblWelcome.Text = $"\U0001F44B Welcome, {activeUser?.FullName ?? activeUser?.Username ?? "Patient"}!";
             LoadMyAppointments();
         }
 
@@ -38,6 +45,7 @@ namespace Dentora.Forms
             var appointments = _appointmentService.GetAppointmentsByUser(activeUser.Id);
             var data = appointments.Select(a => new
             {
+                a.Id,
                 Date = a.AppointmentDate.ToString("dd MMM yyyy HH:mm"),
                 Treatment = a.Treatment?.Title ?? "N/A",
                 Duration = (a.Treatment?.DurationMinutes ?? 0) + " min",
@@ -46,17 +54,9 @@ namespace Dentora.Forms
             }).ToList();
 
             dgvHistory.DataSource = data;
-            dgvHistory.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-        }
 
-        private void btnBook_Click(object sender, EventArgs e)
-        {
-            Program.SwitchMainForm(new BookAppointment(_treatmentService, _appointmentService, _userService));
-        }
-
-        private void btnReview_Click(object sender, EventArgs e)
-        {
-            Program.SwitchMainForm(new FeedbackForm(_userService, _appointmentService, _reviewService));
+            if (dgvHistory.Columns.Contains("Id"))
+                dgvHistory.Columns["Id"].Visible = false;
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
@@ -66,35 +66,26 @@ namespace Dentora.Forms
 
         private void btnCancelAppointment_Click(object sender, EventArgs e)
         {
-            if (dgvHistory.SelectedRows.Count == 0) return;
-            if (activeUser == null) return;
+            if (dgvHistory.SelectedRows.Count == 0 || activeUser == null) return;
 
-            var appointments = _appointmentService.GetAppointmentsByUser(activeUser.Id);
-            int idx = dgvHistory.SelectedRows[0].Index;
-            if (idx >= 0 && idx < appointments.Count)
+            var row = dgvHistory.SelectedRows[0];
+            string selectedStatus = row.Cells["Status"]?.Value?.ToString();
+
+            if (selectedStatus != "Pending")
             {
-                var apt = appointments[idx];
-                if (apt.Status == "Pending")
-                {
-                    if (MessageBox.Show("Are you sure you want to cancel this appointment?", "Confirm",
-                        MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                    {
-                        _appointmentService.CancelAppointment(apt.Id);
-                        LoadMyAppointments();
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Only pending appointments can be cancelled.", "Info",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                MessageBox.Show("Only pending appointments can be cancelled.", "Info",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
             }
-        }
 
-        private void btnLogout_Click(object sender, EventArgs e)
-        {
-            _userService.LogoutUser();
-            Program.SwitchMainForm(new Login(_userService));
+            var id = (Guid)row.Cells["Id"].Value;
+
+            if (MessageBox.Show("Are you sure you want to cancel this appointment?", "Confirm",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                _appointmentService.CancelAppointment(id);
+                LoadMyAppointments();
+            }
         }
     }
 }

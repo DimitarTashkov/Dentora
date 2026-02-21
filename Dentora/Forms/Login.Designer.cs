@@ -87,7 +87,7 @@
             label8.Name = "label8";
             label8.Size = new Size(446, 83);
             label8.TabIndex = 17;
-            label8.Text = "Log in now to manage your smile!";
+            label8.Text = "🔐Log in now to manage your smile!";
             // 
             // label7
             // 
@@ -96,12 +96,12 @@
             label7.BackColor = Color.Transparent;
             label7.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
             label7.ForeColor = Color.FromArgb(0, 150, 136);
-            label7.Location = new Point(47, 289);
+            label7.Location = new Point(47, 266);
             label7.MaximumSize = new Size(343, 0);
             label7.Name = "label7";
-            label7.Size = new Size(343, 56);
+            label7.Size = new Size(323, 84);
             label7.TabIndex = 16;
-            label7.Text = "Book appointments, track treatments, and keep your dental health on point";
+            label7.Text = "📅Book appointments, track treatments, and keep your dental health on point";
             // 
             // label4
             // 
@@ -123,9 +123,9 @@
             label6.Location = new Point(47, 212);
             label6.MaximumSize = new Size(343, 0);
             label6.Name = "label6";
-            label6.Size = new Size(300, 28);
+            label6.Size = new Size(252, 28);
             label6.TabIndex = 14;
-            label6.Text = "Your smile, our priority.";
+            label6.Text = "😁Your smile, our priority.";
             // 
             // label2
             // 
@@ -137,9 +137,9 @@
             label2.Location = new Point(47, 123);
             label2.MaximumSize = new Size(343, 0);
             label2.Name = "label2";
-            label2.Size = new Size(310, 56);
+            label2.Size = new Size(336, 56);
             label2.TabIndex = 10;
-            label2.Text = "Welcome to your trusted dental clinic management system.";
+            label2.Text = "\U0001f9b7Welcome to your trusted dental clinic management system.";
             // 
             // label1
             // 
@@ -149,7 +149,7 @@
             label1.ForeColor = Color.FromArgb(0, 150, 136);
             label1.Location = new Point(262, 42);
             label1.Name = "label1";
-            label1.Size = new Size(310, 40);
+            label1.Size = new Size(307, 41);
             label1.TabIndex = 9;
             label1.Text = "Welcome to Dentora";
             // 

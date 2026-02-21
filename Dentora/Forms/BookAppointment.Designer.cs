@@ -1,3 +1,5 @@
+using Dentora.Utilities;
+
 namespace Dentora.Forms
 {
     partial class BookAppointment
@@ -8,47 +10,82 @@ namespace Dentora.Forms
         #region Windows Form Designer generated code
         private void InitializeComponent()
         {
-            lblHeader = new Label(); logoBox = new PictureBox();
+            pnlSidebar = SidebarHelper.CreateClientSidebarPanel("Book");
+            pnlContent = new Panel();
+            lblHeader = new Label();
             lblSelectTreatment = new Label(); cmbTreatment = new ComboBox();
+            pnlTreatmentPreview = new Panel();
+            picTreatment = new PictureBox();
+            lblTreatmentDesc = new Label();
             lblSelectDate = new Label(); dtpDate = new DateTimePicker();
-            lblPrice = new Label(); lblPriceValue = new Label();
+            lblSelectTime = new Label(); dtpTime = new DateTimePicker();
+            pnlSummary = new Panel();
             lblDuration = new Label(); lblDurationValue = new Label();
-            btnBook = new Button(); btnBack = new Button();
-            ((System.ComponentModel.ISupportInitialize)logoBox).BeginInit(); SuspendLayout();
-            // logoBox
-            logoBox.BackColor = Color.Transparent; logoBox.BackgroundImage = Properties.Resources.dentora_logo; logoBox.BackgroundImageLayout = ImageLayout.Zoom; logoBox.Location = new Point(10, 5); logoBox.Name = "logoBox"; logoBox.Size = new Size(100, 50); logoBox.TabStop = false;
+            lblPrice = new Label(); lblPriceValue = new Label();
+            btnBook = new Button();
+            pnlContent.SuspendLayout();
+            pnlTreatmentPreview.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)picTreatment).BeginInit();
+            pnlSummary.SuspendLayout();
+            SuspendLayout();
+            // pnlContent
+            pnlContent.BackgroundImage = Properties.Resources.app_backround; pnlContent.BackgroundImageLayout = ImageLayout.Stretch; pnlContent.Location = new Point(220, 0); pnlContent.Name = "pnlContent"; pnlContent.Size = new Size(830, 650); pnlContent.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            pnlContent.Controls.Add(lblHeader); pnlContent.Controls.Add(lblSelectTreatment); pnlContent.Controls.Add(cmbTreatment); pnlContent.Controls.Add(pnlTreatmentPreview); pnlContent.Controls.Add(lblSelectDate); pnlContent.Controls.Add(dtpDate); pnlContent.Controls.Add(lblSelectTime); pnlContent.Controls.Add(dtpTime); pnlContent.Controls.Add(pnlSummary); pnlContent.Controls.Add(btnBook);
             // lblHeader
-            lblHeader.BackColor = Color.Transparent; lblHeader.Font = new Font("Segoe UI", 18F, FontStyle.Bold); lblHeader.ForeColor = Color.FromArgb(0, 150, 136); lblHeader.Location = new Point(120, 10); lblHeader.Name = "lblHeader"; lblHeader.Size = new Size(500, 45); lblHeader.Text = "Book an Appointment";
+            lblHeader.BackColor = Color.Transparent; lblHeader.Font = new Font("Segoe UI", 18F, FontStyle.Bold); lblHeader.ForeColor = Color.FromArgb(0, 150, 136); lblHeader.Location = new Point(25, 15); lblHeader.Size = new Size(500, 45); lblHeader.Text = "\U0001F4C5 Book an Appointment";
             // lblSelectTreatment
-            lblSelectTreatment.AutoSize = true; lblSelectTreatment.BackColor = Color.Transparent; lblSelectTreatment.Font = new Font("Segoe UI", 13F, FontStyle.Bold); lblSelectTreatment.ForeColor = Color.White; lblSelectTreatment.Location = new Point(50, 90); lblSelectTreatment.Text = "Select Treatment:";
+            lblSelectTreatment.AutoSize = true; lblSelectTreatment.BackColor = Color.Transparent; lblSelectTreatment.Font = new Font("Segoe UI", 12F, FontStyle.Bold); lblSelectTreatment.ForeColor = Color.White; lblSelectTreatment.Location = new Point(30, 75); lblSelectTreatment.Text = "\U0001F9B7 Select Treatment:";
             // cmbTreatment
-            cmbTreatment.Font = new Font("Segoe UI", 12F); cmbTreatment.Location = new Point(50, 120); cmbTreatment.Size = new Size(400, 32); cmbTreatment.DropDownStyle = ComboBoxStyle.DropDownList; cmbTreatment.SelectedIndexChanged += cmbTreatment_SelectedIndexChanged;
+            cmbTreatment.Font = new Font("Segoe UI", 11F); cmbTreatment.Location = new Point(30, 102); cmbTreatment.Size = new Size(360, 30); cmbTreatment.DropDownStyle = ComboBoxStyle.DropDownList; cmbTreatment.SelectedIndexChanged += cmbTreatment_SelectedIndexChanged;
+            // pnlTreatmentPreview
+            pnlTreatmentPreview.BackColor = Color.FromArgb(35, 35, 35); pnlTreatmentPreview.Location = new Point(420, 75); pnlTreatmentPreview.Size = new Size(370, 310); pnlTreatmentPreview.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            pnlTreatmentPreview.Controls.Add(picTreatment); pnlTreatmentPreview.Controls.Add(lblTreatmentDesc);
+            // picTreatment
+            picTreatment.Location = new Point(10, 10); picTreatment.Size = new Size(350, 220); picTreatment.SizeMode = PictureBoxSizeMode.Zoom; picTreatment.BackColor = Color.FromArgb(28, 28, 28);
+            // lblTreatmentDesc
+            lblTreatmentDesc.Font = new Font("Segoe UI", 9.5F); lblTreatmentDesc.ForeColor = Color.FromArgb(190, 190, 190); lblTreatmentDesc.Location = new Point(10, 238); lblTreatmentDesc.Size = new Size(350, 62); lblTreatmentDesc.Text = "Select a treatment to see details.";
             // lblSelectDate
-            lblSelectDate.AutoSize = true; lblSelectDate.BackColor = Color.Transparent; lblSelectDate.Font = new Font("Segoe UI", 13F, FontStyle.Bold); lblSelectDate.ForeColor = Color.White; lblSelectDate.Location = new Point(50, 175); lblSelectDate.Text = "Select Date & Time:";
+            lblSelectDate.AutoSize = true; lblSelectDate.BackColor = Color.Transparent; lblSelectDate.Font = new Font("Segoe UI", 12F, FontStyle.Bold); lblSelectDate.ForeColor = Color.White; lblSelectDate.Location = new Point(30, 160); lblSelectDate.Text = "\U0001F4C6 Select Date:";
             // dtpDate
-            dtpDate.Font = new Font("Segoe UI", 12F); dtpDate.Location = new Point(50, 205); dtpDate.Size = new Size(400, 32);
+            dtpDate.Font = new Font("Segoe UI", 11F); dtpDate.Location = new Point(30, 188); dtpDate.Size = new Size(230, 30); dtpDate.Format = DateTimePickerFormat.Short;
+            // lblSelectTime
+            lblSelectTime.AutoSize = true; lblSelectTime.BackColor = Color.Transparent; lblSelectTime.Font = new Font("Segoe UI", 12F, FontStyle.Bold); lblSelectTime.ForeColor = Color.White; lblSelectTime.Location = new Point(30, 235); lblSelectTime.Text = "\u23F0 Select Time:";
+            // dtpTime
+            dtpTime.Font = new Font("Segoe UI", 11F); dtpTime.Location = new Point(30, 263); dtpTime.Size = new Size(160, 30); dtpTime.Format = DateTimePickerFormat.Time; dtpTime.ShowUpDown = true;
+            // pnlSummary
+            pnlSummary.BackColor = Color.FromArgb(35, 35, 35); pnlSummary.Location = new Point(30, 310); pnlSummary.Size = new Size(360, 80);
+            pnlSummary.Controls.Add(lblDuration); pnlSummary.Controls.Add(lblDurationValue); pnlSummary.Controls.Add(lblPrice); pnlSummary.Controls.Add(lblPriceValue);
             // lblDuration
-            lblDuration.AutoSize = true; lblDuration.BackColor = Color.Transparent; lblDuration.Font = new Font("Segoe UI", 12F, FontStyle.Bold); lblDuration.ForeColor = Color.White; lblDuration.Location = new Point(50, 260); lblDuration.Text = "Duration:";
+            lblDuration.BackColor = Color.Transparent; lblDuration.Font = new Font("Segoe UI", 11F, FontStyle.Bold); lblDuration.ForeColor = Color.White; lblDuration.Location = new Point(15, 12); lblDuration.AutoSize = true; lblDuration.Text = "\u23F1 Duration:";
             // lblDurationValue
-            lblDurationValue.AutoSize = true; lblDurationValue.BackColor = Color.Transparent; lblDurationValue.Font = new Font("Segoe UI", 12F); lblDurationValue.ForeColor = Color.FromArgb(0, 150, 136); lblDurationValue.Location = new Point(180, 260); lblDurationValue.Text = "0 min";
+            lblDurationValue.BackColor = Color.Transparent; lblDurationValue.Font = new Font("Segoe UI", 11F, FontStyle.Bold); lblDurationValue.ForeColor = Color.FromArgb(0, 200, 180); lblDurationValue.Location = new Point(155, 12); lblDurationValue.AutoSize = true; lblDurationValue.Text = "0 min";
             // lblPrice
-            lblPrice.AutoSize = true; lblPrice.BackColor = Color.Transparent; lblPrice.Font = new Font("Segoe UI", 12F, FontStyle.Bold); lblPrice.ForeColor = Color.White; lblPrice.Location = new Point(50, 300); lblPrice.Text = "Total Price:";
+            lblPrice.BackColor = Color.Transparent; lblPrice.Font = new Font("Segoe UI", 11F, FontStyle.Bold); lblPrice.ForeColor = Color.White; lblPrice.Location = new Point(15, 45); lblPrice.AutoSize = true; lblPrice.Text = "\U0001F4B0 Total Price:";
             // lblPriceValue
-            lblPriceValue.AutoSize = true; lblPriceValue.BackColor = Color.Transparent; lblPriceValue.Font = new Font("Segoe UI", 14F, FontStyle.Bold); lblPriceValue.ForeColor = Color.FromArgb(0, 150, 136); lblPriceValue.Location = new Point(180, 296); lblPriceValue.Text = "0.00";
+            lblPriceValue.BackColor = Color.Transparent; lblPriceValue.Font = new Font("Segoe UI", 14F, FontStyle.Bold); lblPriceValue.ForeColor = Color.FromArgb(0, 200, 180); lblPriceValue.Location = new Point(155, 40); lblPriceValue.AutoSize = true; lblPriceValue.Text = "0.00";
             // btnBook
-            btnBook.BackColor = Color.FromArgb(0, 150, 136); btnBook.FlatStyle = FlatStyle.Flat; btnBook.FlatAppearance.BorderSize = 0; btnBook.Font = new Font("Segoe UI", 13F, FontStyle.Bold); btnBook.ForeColor = Color.White; btnBook.Location = new Point(50, 360); btnBook.Name = "btnBook"; btnBook.Size = new Size(190, 50); btnBook.Text = "Confirm"; btnBook.Click += btnBook_Click;
-            // btnBack
-            btnBack.BackColor = Color.FromArgb(55, 55, 55); btnBack.FlatStyle = FlatStyle.Flat; btnBack.FlatAppearance.BorderSize = 0; btnBack.Font = new Font("Segoe UI", 13F, FontStyle.Bold); btnBack.ForeColor = Color.White; btnBack.Location = new Point(260, 360); btnBack.Name = "btnBack"; btnBack.Size = new Size(190, 50); btnBack.Text = "< Back"; btnBack.Click += btnBack_Click;
+            btnBook.BackColor = Color.FromArgb(0, 150, 136); btnBook.FlatStyle = FlatStyle.Flat; btnBook.FlatAppearance.BorderSize = 0; btnBook.Font = new Font("Segoe UI", 13F, FontStyle.Bold); btnBook.ForeColor = Color.White; btnBook.Location = new Point(30, 410); btnBook.Size = new Size(220, 55); btnBook.Text = "\u2705 Confirm Booking"; btnBook.Cursor = Cursors.Hand; btnBook.Click += btnBook_Click;
             // BookAppointment
-            AutoScaleDimensions = new SizeF(8F, 20F); AutoScaleMode = AutoScaleMode.Font; BackgroundImage = Properties.Resources.app_backround; BackgroundImageLayout = ImageLayout.Stretch; ClientSize = new Size(550, 440); Controls.Add(logoBox); Controls.Add(lblHeader); Controls.Add(lblSelectTreatment); Controls.Add(cmbTreatment); Controls.Add(lblSelectDate); Controls.Add(dtpDate); Controls.Add(lblDuration); Controls.Add(lblDurationValue); Controls.Add(lblPrice); Controls.Add(lblPriceValue); Controls.Add(btnBook); Controls.Add(btnBack); DoubleBuffered = true; FormBorderStyle = FormBorderStyle.FixedSingle; MaximizeBox = false; Name = "BookAppointment"; StartPosition = FormStartPosition.CenterScreen; Text = "Dentora - Book Appointment"; Load += BookAppointment_Load;
-            ((System.ComponentModel.ISupportInitialize)logoBox).EndInit(); ResumeLayout(false); PerformLayout();
+            AutoScaleDimensions = new SizeF(8F, 20F); AutoScaleMode = AutoScaleMode.Font; ClientSize = new Size(1050, 650); Controls.Add(pnlSidebar); Controls.Add(pnlContent); DoubleBuffered = true; Icon = Icon.FromHandle(Properties.Resources.dentora_logo1.GetHicon()); Name = "BookAppointment"; StartPosition = FormStartPosition.CenterScreen; Text = "Dentora - Book Appointment"; Load += BookAppointment_Load;
+            pnlContent.ResumeLayout(false); pnlContent.PerformLayout();
+            pnlTreatmentPreview.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)picTreatment).EndInit();
+            pnlSummary.ResumeLayout(false); pnlSummary.PerformLayout();
+            ResumeLayout(false);
         }
         #endregion
-        private Label lblHeader; private PictureBox logoBox;
+        private Panel pnlSidebar;
+        private Panel pnlContent;
+        private Label lblHeader;
         private Label lblSelectTreatment; private ComboBox cmbTreatment;
+        private Panel pnlTreatmentPreview;
+        private PictureBox picTreatment;
+        private Label lblTreatmentDesc;
         private Label lblSelectDate; private DateTimePicker dtpDate;
+        private Label lblSelectTime; private DateTimePicker dtpTime;
+        private Panel pnlSummary;
         private Label lblPrice; private Label lblPriceValue;
         private Label lblDuration; private Label lblDurationValue;
-        private Button btnBook; private Button btnBack;
+        private Button btnBook;
     }
 }

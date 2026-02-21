@@ -101,13 +101,13 @@ namespace Dentora.Forms
             {
                 if (isAdmin)
                 {
-                    var adminDash = new AdminDashboard(userService);
-                    Program.SwitchMainForm(adminDash);
+                    var home = new Home(userService, true);
+                    Program.SwitchMainForm(home);
                 }
                 else
                 {
-                    var clientDash = new ClientDashboard(userService);
-                    Program.SwitchMainForm(clientDash);
+                    var home = new Home(userService, false);
+                    Program.SwitchMainForm(home);
                 }
             }
             else

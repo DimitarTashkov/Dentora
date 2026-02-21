@@ -1,3 +1,5 @@
+using Dentora.Utilities;
+
 namespace Dentora.Forms
 {
     partial class AdminDashboard
@@ -14,141 +16,40 @@ namespace Dentora.Forms
 
         private void InitializeComponent()
         {
-            pnlSidebar = new Panel();
-            lblClinicName = new Label();
-            logoBox = new PictureBox();
-            btnSchedule = new Button();
-            btnTreatments = new Button();
-            btnInventory = new Button();
-            btnPatients = new Button();
-            btnLogout = new Button();
+            pnlSidebar = SidebarHelper.CreateAdminSidebarPanel("Schedule");
             pnlContent = new Panel();
             lblDate = new Label();
+            cmbFilter = new ComboBox();
+            lblFilter = new Label();
             dgvSchedule = new DataGridView();
             btnRefresh = new Button();
             btnCompleteAppointment = new Button();
-            pnlSidebar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)logoBox).BeginInit();
+            btnPrintReport = new Button();
+            btnCancelAppointment = new Button();
             pnlContent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvSchedule).BeginInit();
             SuspendLayout();
             //
             // pnlSidebar
             //
-            pnlSidebar.BackColor = Color.FromArgb(34, 34, 34);
-            pnlSidebar.Controls.Add(logoBox);
-            pnlSidebar.Controls.Add(lblClinicName);
-            pnlSidebar.Controls.Add(btnSchedule);
-            pnlSidebar.Controls.Add(btnTreatments);
-            pnlSidebar.Controls.Add(btnInventory);
-            pnlSidebar.Controls.Add(btnPatients);
-            pnlSidebar.Controls.Add(btnLogout);
-            pnlSidebar.Dock = DockStyle.Left;
-            pnlSidebar.Location = new Point(0, 0);
-            pnlSidebar.Name = "pnlSidebar";
-            pnlSidebar.Size = new Size(220, 600);
-            //
-            // logoBox
-            //
-            logoBox.BackColor = Color.Transparent;
-            logoBox.BackgroundImage = Properties.Resources.dentora_logo;
-            logoBox.BackgroundImageLayout = ImageLayout.Zoom;
-            logoBox.Location = new Point(30, 10);
-            logoBox.Name = "logoBox";
-            logoBox.Size = new Size(160, 80);
-            logoBox.TabStop = false;
-            //
-            // lblClinicName
-            //
-            lblClinicName.ForeColor = Color.FromArgb(0, 150, 136);
-            lblClinicName.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
-            lblClinicName.Location = new Point(10, 95);
-            lblClinicName.Name = "lblClinicName";
-            lblClinicName.Size = new Size(200, 30);
-            lblClinicName.Text = "  Admin Panel";
-            lblClinicName.TextAlign = ContentAlignment.MiddleCenter;
-            //
-            // btnSchedule
-            //
-            btnSchedule.BackColor = Color.FromArgb(0, 150, 136);
-            btnSchedule.FlatStyle = FlatStyle.Flat;
-            btnSchedule.FlatAppearance.BorderSize = 0;
-            btnSchedule.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            btnSchedule.ForeColor = Color.White;
-            btnSchedule.Location = new Point(10, 145);
-            btnSchedule.Name = "btnSchedule";
-            btnSchedule.Size = new Size(200, 45);
-            btnSchedule.Text = "[=] Schedule";
-            btnSchedule.TextAlign = ContentAlignment.MiddleLeft;
-            btnSchedule.Click += btnRefresh_Click;
-            //
-            // btnTreatments
-            //
-            btnTreatments.BackColor = Color.FromArgb(55, 55, 55);
-            btnTreatments.FlatStyle = FlatStyle.Flat;
-            btnTreatments.FlatAppearance.BorderSize = 0;
-            btnTreatments.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            btnTreatments.ForeColor = Color.White;
-            btnTreatments.Location = new Point(10, 200);
-            btnTreatments.Name = "btnTreatments";
-            btnTreatments.Size = new Size(200, 45);
-            btnTreatments.Text = "[T] Treatments";
-            btnTreatments.TextAlign = ContentAlignment.MiddleLeft;
-            btnTreatments.Click += btnTreatments_Click;
-            //
-            // btnInventory
-            //
-            btnInventory.BackColor = Color.FromArgb(55, 55, 55);
-            btnInventory.FlatStyle = FlatStyle.Flat;
-            btnInventory.FlatAppearance.BorderSize = 0;
-            btnInventory.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            btnInventory.ForeColor = Color.White;
-            btnInventory.Location = new Point(10, 255);
-            btnInventory.Name = "btnInventory";
-            btnInventory.Size = new Size(200, 45);
-            btnInventory.Text = "[I] Inventory";
-            btnInventory.TextAlign = ContentAlignment.MiddleLeft;
-            btnInventory.Click += btnInventory_Click;
-            //
-            // btnPatients
-            //
-            btnPatients.BackColor = Color.FromArgb(55, 55, 55);
-            btnPatients.FlatStyle = FlatStyle.Flat;
-            btnPatients.FlatAppearance.BorderSize = 0;
-            btnPatients.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            btnPatients.ForeColor = Color.White;
-            btnPatients.Location = new Point(10, 310);
-            btnPatients.Name = "btnPatients";
-            btnPatients.Size = new Size(200, 45);
-            btnPatients.Text = "[P] Patients";
-            btnPatients.TextAlign = ContentAlignment.MiddleLeft;
-            btnPatients.Click += btnPatients_Click;
-            //
-            // btnLogout
-            //
-            btnLogout.BackColor = Color.FromArgb(180, 40, 40);
-            btnLogout.FlatStyle = FlatStyle.Flat;
-            btnLogout.FlatAppearance.BorderSize = 0;
-            btnLogout.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            btnLogout.ForeColor = Color.White;
-            btnLogout.Location = new Point(10, 530);
-            btnLogout.Name = "btnLogout";
-            btnLogout.Size = new Size(200, 45);
-            btnLogout.Text = "Logout";
-            btnLogout.TextAlign = ContentAlignment.MiddleLeft;
-            btnLogout.Click += btnLogout_Click;
+            pnlSidebar = SidebarHelper.CreateAdminSidebarPanel("Schedule");
             //
             // pnlContent
             //
             pnlContent.BackgroundImage = Properties.Resources.app_backround;
             pnlContent.BackgroundImageLayout = ImageLayout.Stretch;
             pnlContent.Controls.Add(lblDate);
+            pnlContent.Controls.Add(lblFilter);
+            pnlContent.Controls.Add(cmbFilter);
             pnlContent.Controls.Add(dgvSchedule);
             pnlContent.Controls.Add(btnRefresh);
             pnlContent.Controls.Add(btnCompleteAppointment);
-            pnlContent.Dock = DockStyle.Fill;
+            pnlContent.Controls.Add(btnCancelAppointment);
+            pnlContent.Controls.Add(btnPrintReport);
             pnlContent.Location = new Point(220, 0);
             pnlContent.Name = "pnlContent";
+            pnlContent.Size = new Size(830, 650);
+            pnlContent.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             //
             // lblDate
             //
@@ -158,23 +59,68 @@ namespace Dentora.Forms
             lblDate.Location = new Point(20, 15);
             lblDate.Name = "lblDate";
             lblDate.Size = new Size(500, 40);
-            lblDate.Text = "Today's Schedule";
+            lblDate.Text = "\U0001F4C5 Appointments";
+            //
+            // lblFilter
+            //
+            lblFilter.AutoSize = true;
+            lblFilter.BackColor = Color.Transparent;
+            lblFilter.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblFilter.ForeColor = Color.White;
+            lblFilter.Location = new Point(550, 22);
+            lblFilter.Name = "lblFilter";
+            lblFilter.Text = "Show:";
+            lblFilter.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            //
+            // cmbFilter
+            //
+            cmbFilter.Font = new Font("Segoe UI", 10F);
+            cmbFilter.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbFilter.Location = new Point(610, 18);
+            cmbFilter.Size = new Size(190, 30);
+            cmbFilter.Name = "cmbFilter";
+            cmbFilter.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            cmbFilter.SelectedIndexChanged += cmbFilter_SelectedIndexChanged;
             //
             // dgvSchedule
             //
-            dgvSchedule.BackgroundColor = Color.FromArgb(45, 45, 45);
-            dgvSchedule.ForeColor = Color.Black;
             dgvSchedule.Location = new Point(20, 65);
             dgvSchedule.Name = "dgvSchedule";
-            dgvSchedule.Size = new Size(640, 420);
+            dgvSchedule.Size = new Size(780, 480);
+            dgvSchedule.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvSchedule.BackgroundColor = Color.FromArgb(30, 30, 30);
+            dgvSchedule.GridColor = Color.FromArgb(55, 55, 55);
+            dgvSchedule.BorderStyle = BorderStyle.None;
+            dgvSchedule.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgvSchedule.ReadOnly = true;
             dgvSchedule.AllowUserToAddRows = false;
+            dgvSchedule.AllowUserToResizeRows = false;
             dgvSchedule.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvSchedule.RowHeadersVisible = false;
+            dgvSchedule.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvSchedule.EnableHeadersVisualStyles = false;
+            dgvSchedule.ColumnHeadersHeight = 40;
+            dgvSchedule.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgvSchedule.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(0, 150, 136);
             dgvSchedule.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             dgvSchedule.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            dgvSchedule.EnableHeadersVisualStyles = false;
-            dgvSchedule.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvSchedule.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dgvSchedule.ColumnHeadersDefaultCellStyle.Padding = new Padding(8, 0, 0, 0);
+            dgvSchedule.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.FromArgb(0, 150, 136);
+            dgvSchedule.ColumnHeadersDefaultCellStyle.SelectionForeColor = Color.White;
+            dgvSchedule.DefaultCellStyle.BackColor = Color.FromArgb(40, 40, 40);
+            dgvSchedule.DefaultCellStyle.ForeColor = Color.FromArgb(220, 220, 220);
+            dgvSchedule.DefaultCellStyle.Font = new Font("Segoe UI", 10F);
+            dgvSchedule.DefaultCellStyle.SelectionBackColor = Color.FromArgb(0, 120, 110);
+            dgvSchedule.DefaultCellStyle.SelectionForeColor = Color.White;
+            dgvSchedule.DefaultCellStyle.Padding = new Padding(8, 4, 4, 4);
+            dgvSchedule.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(50, 50, 50);
+            dgvSchedule.AlternatingRowsDefaultCellStyle.ForeColor = Color.FromArgb(220, 220, 220);
+            dgvSchedule.AlternatingRowsDefaultCellStyle.Font = new Font("Segoe UI", 10F);
+            dgvSchedule.AlternatingRowsDefaultCellStyle.SelectionBackColor = Color.FromArgb(0, 120, 110);
+            dgvSchedule.AlternatingRowsDefaultCellStyle.SelectionForeColor = Color.White;
+            dgvSchedule.AlternatingRowsDefaultCellStyle.Padding = new Padding(8, 4, 4, 4);
+            dgvSchedule.RowTemplate.Height = 36;
             //
             // btnRefresh
             //
@@ -183,10 +129,11 @@ namespace Dentora.Forms
             btnRefresh.FlatAppearance.BorderSize = 0;
             btnRefresh.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             btnRefresh.ForeColor = Color.White;
-            btnRefresh.Location = new Point(20, 500);
+            btnRefresh.Location = new Point(20, 560);
             btnRefresh.Name = "btnRefresh";
-            btnRefresh.Size = new Size(140, 40);
-            btnRefresh.Text = "Refresh";
+            btnRefresh.Size = new Size(120, 40);
+            btnRefresh.Text = "\U0001F504 Refresh";
+            btnRefresh.Cursor = Cursors.Hand;
             btnRefresh.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             btnRefresh.Click += btnRefresh_Click;
             //
@@ -197,28 +144,59 @@ namespace Dentora.Forms
             btnCompleteAppointment.FlatAppearance.BorderSize = 0;
             btnCompleteAppointment.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             btnCompleteAppointment.ForeColor = Color.White;
-            btnCompleteAppointment.Location = new Point(180, 500);
+            btnCompleteAppointment.Location = new Point(150, 560);
             btnCompleteAppointment.Name = "btnCompleteAppointment";
-            btnCompleteAppointment.Size = new Size(220, 40);
-            btnCompleteAppointment.Text = "Complete + Prescription";
+            btnCompleteAppointment.Size = new Size(250, 40);
+            btnCompleteAppointment.Text = "\u2705 Complete + Prescription";
+            btnCompleteAppointment.Cursor = Cursors.Hand;
             btnCompleteAppointment.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             btnCompleteAppointment.Click += btnCompleteAppointment_Click;
+            //
+            // btnPrintReport
+            //
+            btnPrintReport.BackColor = Color.FromArgb(55, 55, 55);
+            btnPrintReport.FlatStyle = FlatStyle.Flat;
+            btnPrintReport.FlatAppearance.BorderSize = 0;
+            btnPrintReport.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnPrintReport.ForeColor = Color.White;
+            btnPrintReport.Location = new Point(410, 560);
+            btnPrintReport.Name = "btnPrintReport";
+            btnPrintReport.Size = new Size(200, 40);
+            btnPrintReport.Text = "\U0001F5A8 Print Daily Report";
+            btnPrintReport.Cursor = Cursors.Hand;
+            btnPrintReport.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnPrintReport.Click += btnPrintReport_Click;
+            //
+            // btnCancelAppointment
+            //
+            btnCancelAppointment.BackColor = Color.FromArgb(180, 40, 40);
+            btnCancelAppointment.FlatStyle = FlatStyle.Flat;
+            btnCancelAppointment.FlatAppearance.BorderSize = 0;
+            btnCancelAppointment.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnCancelAppointment.ForeColor = Color.White;
+            btnCancelAppointment.Location = new Point(620, 560);
+            btnCancelAppointment.Name = "btnCancelAppointment";
+            btnCancelAppointment.Size = new Size(180, 40);
+            btnCancelAppointment.Text = "\u274C Cancel";
+            btnCancelAppointment.Cursor = Cursors.Hand;
+            btnCancelAppointment.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnCancelAppointment.Click += btnCancelAppointment_Click;
             //
             // AdminDashboard
             //
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(914, 600);
-            Controls.Add(pnlContent);
+            ClientSize = new Size(1050, 650);
             Controls.Add(pnlSidebar);
+            Controls.Add(pnlContent);
             DoubleBuffered = true;
+            Icon = Icon.FromHandle(Properties.Resources.dentora_logo1.GetHicon());
             Name = "AdminDashboard";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Dentora - Admin Dashboard";
             Load += AdminDashboard_Load;
-            pnlSidebar.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)logoBox).EndInit();
             pnlContent.ResumeLayout(false);
+            pnlContent.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvSchedule).EndInit();
             ResumeLayout(false);
         }
@@ -226,17 +204,14 @@ namespace Dentora.Forms
         #endregion
 
         private Panel pnlSidebar;
-        private Label lblClinicName;
-        private PictureBox logoBox;
-        private Button btnSchedule;
-        private Button btnTreatments;
-        private Button btnInventory;
-        private Button btnPatients;
-        private Button btnLogout;
         private Panel pnlContent;
         private Label lblDate;
+        private Label lblFilter;
+        private ComboBox cmbFilter;
         private DataGridView dgvSchedule;
         private Button btnRefresh;
         private Button btnCompleteAppointment;
+        private Button btnPrintReport;
+        private Button btnCancelAppointment;
     }
 }

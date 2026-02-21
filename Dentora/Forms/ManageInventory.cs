@@ -1,6 +1,7 @@
 using Dentora.Models;
 using Dentora.Services.Interfaces;
 using Dentora.Extensions;
+using Dentora.Utilities;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -9,15 +10,28 @@ namespace Dentora.Forms
 {
     public partial class ManageInventory : Form
     {
+        private readonly IUserService _userService;
         private readonly IInventoryService _service;
 
-        public ManageInventory(IInventoryService service)
+        public ManageInventory(IUserService userService)
         {
             InitializeComponent();
-            _service = service;
+            _userService = userService;
+            _service = ServiceLocator.GetService<IInventoryService>();
+            Tag = _userService;
+
+            SidebarHelper.WireAdminSidebar(this,
+                (s, e) => Program.SwitchMainForm(new AdminDashboard(_userService)),
+                (s, e) => Program.SwitchMainForm(new ManageTreatments(_userService)),
+                (s, e) => { },
+                (s, e) => Program.SwitchMainForm(new ManagePatients(_userService)),
+                (s, e) => { _userService.LogoutUser(); Program.SwitchMainForm(new Login(_userService)); });
         }
 
-        private void ManageInventory_Load(object sender, EventArgs e) => LoadData();
+        private void ManageInventory_Load(object sender, EventArgs e)
+        {
+            LoadData();
+        }
 
         private void LoadData()
         {
@@ -43,6 +57,14 @@ namespace Dentora.Forms
             LoadData();
         }
 
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            if (dgvInventory.SelectedRows.Count == 0) return;
+            var id = (Guid)dgvInventory.SelectedRows[0].Cells["Id"].Value;
+            new AddEditInventoryItem(_service, _service.GetItemById(id)).ShowDialog();
+            LoadData();
+        }
+
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (dgvInventory.SelectedRows.Count == 0) return;
@@ -52,11 +74,6 @@ namespace Dentora.Forms
                 _service.DeleteItem(id);
                 LoadData();
             }
-        }
-
-        private void btnBack_Click(object sender, EventArgs e)
-        {
-            Program.SwitchMainForm(new AdminDashboard(ServiceLocator.GetService<IUserService>()));
         }
     }
 }
