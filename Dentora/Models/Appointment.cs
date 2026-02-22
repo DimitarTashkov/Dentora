@@ -17,6 +17,11 @@ namespace Dentora.Models
         public Guid TreatmentId { get; set; }
         public virtual Treatment Treatment { get; set; }
 
+        public Guid? DoctorId { get; set; }
+        [ForeignKey(nameof(DoctorId))
+]
+        public virtual User? Doctor { get; set; }
+
         public DateTime AppointmentDate { get; set; }
 
         public decimal TotalPrice { get; set; }

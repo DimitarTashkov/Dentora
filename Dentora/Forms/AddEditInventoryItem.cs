@@ -29,6 +29,7 @@ namespace Dentora.Forms
                 txtDescription.Text = _item.Description;
                 nudQuantity.Value = _item.Quantity;
                 nudPrice.Value = _item.Price;
+                txtSupplier.Text = _item.Supplier ?? "";
                 lblHeader.Text = "\u270F\uFE0F Edit Inventory Item";
 
                 if (_item.Image != null && _item.Image.Length > 0)
@@ -71,6 +72,7 @@ namespace Dentora.Forms
             _item.Description = txtDescription.Text.Trim();
             _item.Quantity = (int)nudQuantity.Value;
             _item.Price = nudPrice.Value;
+            _item.Supplier = txtSupplier.Text.Trim();
             _item.Image = _selectedImage;
 
             if (_item.Id == Guid.Empty) _service.AddItem(_item);

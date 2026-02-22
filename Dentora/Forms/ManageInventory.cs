@@ -36,7 +36,7 @@ namespace Dentora.Forms
         private void LoadData()
         {
             var items = _service.GetAllItems()
-                .Select(i => new { i.Id, i.Name, i.Description, i.Quantity, Price = $"{i.Price:F2}" })
+                .Select(i => new { i.Id, i.Name, i.Description, i.Quantity, Price = $"{i.Price:F2}", Supplier = i.Supplier ?? "" })
                 .ToList();
             dgvInventory.DataSource = items;
             dgvInventory.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;

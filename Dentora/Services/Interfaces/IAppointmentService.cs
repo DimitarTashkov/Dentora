@@ -7,6 +7,7 @@ namespace Dentora.Services.Interfaces
     public interface IAppointmentService
     {
         void CreateAppointment(Guid userId, Guid treatmentId, DateTime appointmentDate);
+        void CreateAppointment(Guid userId, Guid treatmentId, DateTime appointmentDate, Guid? doctorId);
         List<Appointment> GetAppointmentsByUser(Guid userId);
         List<Appointment> GetAllAppointments();
         List<Appointment> GetCompletedAppointmentsByUser(Guid userId);

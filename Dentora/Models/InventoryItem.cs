@@ -20,5 +20,8 @@ namespace Dentora.Models
         public int Quantity { get; set; }
 
         public byte[]? Image { get; set; }
+
+        [MaxLength(200)]
+        public string? Supplier { get; set; }
     }
 }

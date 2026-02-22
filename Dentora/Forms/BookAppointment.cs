@@ -3,6 +3,7 @@ using Dentora.Models;
 using Dentora.Services.Interfaces;
 using Dentora.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -40,12 +41,33 @@ namespace Dentora.Forms
             cmbTreatment.ValueMember = "Id";
             cmbTreatment.DataSource = treatments;
 
+            LoadDoctors();
+
             dtpDate.MinDate = DateTime.Today;
             dtpDate.Value = DateTime.Today;
 
             dtpTime.Value = DateTime.Today.AddHours(9);
 
             UpdateTreatmentPreview();
+        }
+
+        private void LoadDoctors()
+        {
+            using var context = new Data.DentoraDbContext();
+            var doctors = context.UserRoles
+                .Where(ur => ur.Role.Name == "Admin")
+                .Select(ur => ur.User)
+                .Distinct()
+                .ToList();
+
+            cmbDoctor.DisplayMember = "FullName";
+            cmbDoctor.ValueMember = "Id";
+
+            var doctorList = doctors
+                .Select(d => new { d.Id, FullName = d.FullName ?? d.Username })
+                .ToList();
+
+            cmbDoctor.DataSource = doctorList;
         }
 
         private void cmbTreatment_SelectedIndexChanged(object sender, EventArgs e) => UpdateTreatmentPreview();
@@ -78,6 +100,8 @@ namespace Dentora.Forms
         {
             if (cmbTreatment.SelectedItem is not Treatment treatment || activeUser == null) return;
 
+            Guid? doctorId = cmbDoctor.SelectedValue as Guid?;
+
             var appointmentDate = dtpDate.Value.Date.Add(dtpTime.Value.TimeOfDay);
             if (appointmentDate <= DateTime.Now)
             {
@@ -87,7 +111,7 @@ namespace Dentora.Forms
 
             try
             {
-                _appointmentService.CreateAppointment(activeUser.Id, treatment.Id, appointmentDate);
+                _appointmentService.CreateAppointment(activeUser.Id, treatment.Id, appointmentDate, doctorId);
                 MessageBox.Show("\u2705 Appointment booked successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Program.SwitchMainForm(new ClientDashboard(_userService));
             }

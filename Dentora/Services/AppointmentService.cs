@@ -14,6 +14,11 @@ namespace Dentora.Services
 
         public void CreateAppointment(Guid userId, Guid treatmentId, DateTime appointmentDate)
         {
+            CreateAppointment(userId, treatmentId, appointmentDate, null);
+        }
+
+        public void CreateAppointment(Guid userId, Guid treatmentId, DateTime appointmentDate, Guid? doctorId)
+        {
             using var context = CreateContext();
             var treatment = context.Treatments.Find(treatmentId);
             if (treatment == null)
@@ -27,6 +32,7 @@ namespace Dentora.Services
                 Id = Guid.NewGuid(),
                 UserId = userId,
                 TreatmentId = treatmentId,
+                DoctorId = doctorId,
                 AppointmentDate = appointmentDate,
                 TotalPrice = treatment.Price,
                 Status = "Pending"
@@ -42,6 +48,7 @@ namespace Dentora.Services
             return context.Appointments
                 .Include(a => a.Treatment)
                 .Include(a => a.User)
+                .Include(a => a.Doctor)
                 .Where(a => a.UserId == userId)
                 .OrderByDescending(a => a.AppointmentDate)
                 .ToList();
@@ -53,6 +60,7 @@ namespace Dentora.Services
             return context.Appointments
                 .Include(a => a.User)
                 .Include(a => a.Treatment)
+                .Include(a => a.Doctor)
                 .OrderByDescending(a => a.AppointmentDate)
                 .ToList();
         }
@@ -62,6 +70,7 @@ namespace Dentora.Services
             using var context = CreateContext();
             return context.Appointments
                 .Include(a => a.Treatment)
+                .Include(a => a.Doctor)
                 .Where(a => a.UserId == userId && a.Status == "Completed")
                 .OrderByDescending(a => a.AppointmentDate)
                 .ToList();

@@ -75,6 +75,7 @@ namespace Dentora.Forms
                 Date = a.AppointmentDate.ToString("dd MMM yyyy"),
                 Time = a.AppointmentDate.ToString("HH:mm"),
                 Patient = a.User?.FullName ?? a.User?.Username ?? "N/A",
+                Doctor = a.Doctor?.FullName ?? a.Doctor?.Username ?? "N/A",
                 Treatment = a.Treatment?.Title ?? "N/A",
                 Duration = (a.Treatment?.DurationMinutes ?? 0) + " min",
                 Price = $"{a.TotalPrice:F2}",
