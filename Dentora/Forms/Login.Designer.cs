@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
             formPanel = new Panel();
             label8 = new Label();
             label7 = new Label();
@@ -293,7 +292,7 @@
             Controls.Add(formPanel);
             Controls.Add(label3);
             DoubleBuffered = true;
-            Icon = (Icon)resources.GetObject("$this.Icon");
+            Icon = Icon.FromHandle(Properties.Resources.dentora_logo1.GetHicon());
             Margin = new Padding(3, 4, 3, 4);
             Name = "Login";
             StartPosition = FormStartPosition.CenterScreen;

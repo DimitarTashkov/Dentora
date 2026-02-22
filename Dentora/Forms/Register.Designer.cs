@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Register));
             formPanel = new Panel();
             pfpErrorMessages = new Label();
             ageErrors = new Label();
@@ -401,7 +400,7 @@
             ClientSize = new Size(914, 600);
             Controls.Add(formPanel);
             DoubleBuffered = true;
-            Icon = (Icon)resources.GetObject("$this.Icon");
+            Icon = Icon.FromHandle(Properties.Resources.dentora_logo1.GetHicon());
             Margin = new Padding(3, 4, 3, 4);
             Name = "Register";
             StartPosition = FormStartPosition.CenterScreen;
