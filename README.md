@@ -19,28 +19,36 @@ A desktop dental practice management system built with C# and Windows Forms. Den
 
 ## Screenshots
 
-<p align="center">
-  <img src="images/dentora_logo.png" width="150" alt="Dentora Logo">
-</p>
+![Dentora Logo](images/dentora_logo.png)
 
 ### Portals
-| Doctor / Admin Dashboard | Patient Dashboard |
-|:---:|:---:|
-| <img src="images/home-doctor%20form.png" width="400" alt="Doctor Dashboard"> | <img src="images/home-patient%20form.png" width="400" alt="Patient Dashboard"> |
+**Doctor / Admin Dashboard**  
+![Doctor Dashboard](images/home-doctor%20form.png)
 
-### Features
-| Treatment Management | Inventory Management |
-|:---:|:---:|
-| <img src="images/treatments%20form.png" width="400" alt="Treatments Form"> | <img src="images/inventory%20form.png" width="400" alt="Inventory Form"> |
+**Patient Dashboard**  
+![Patient Dashboard](images/home-patient%20form.png)
 
-| Login | Patient Appointments |
-|:---:|:---:|
-| <img src="images/login%20form.png" width="400" alt="Login Form"> | <img src="images/patient%20appointments.png" width="400" alt="Patient Appointments"> |
+### Authentication
+**Login & Register**  
+![Login Form](images/login%20form.png)  
+![Register Form](images/register%20form.png)
+
+### Key Features
+**Managing Patients & Appointments**  
+![Patients Form](images/patients%20form.png)  
+![Patient Appointments](images/patient%20appointments.png)  
+![Book Appointment](images/book%20appointment%20form.png)
+
+**Schedules & Reports**  
+![Schedules Form](images/schedules%20form.png)  
+![Daily Report](images/daily%20report.png)
+
+**Treatment & Inventory Management**  
+![Treatments Form](images/treatments%20form.png)  
+![Inventory Form](images/inventory%20form.png)
 
 ### Database Architecture
-<p align="center">
-  <img src="images/db%20diagram.png" width="800" alt="Database Diagram">
-</p>
+![Database Diagram](images/db%20diagram.png)
 
 ---
 
