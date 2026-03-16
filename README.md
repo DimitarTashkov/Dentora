@@ -17,6 +17,33 @@ A desktop dental practice management system built with C# and Windows Forms. Den
 
 ---
 
+## Screenshots
+
+<p align="center">
+  <img src="images/dentora_logo.png" width="150" alt="Dentora Logo">
+</p>
+
+### Portals
+| Doctor / Admin Dashboard | Patient Dashboard |
+|:---:|:---:|
+| <img src="images/home-doctor%20form.png" width="400" alt="Doctor Dashboard"> | <img src="images/home-patient%20form.png" width="400" alt="Patient Dashboard"> |
+
+### Features
+| Treatment Management | Inventory Management |
+|:---:|:---:|
+| <img src="images/treatments%20form.png" width="400" alt="Treatments Form"> | <img src="images/inventory%20form.png" width="400" alt="Inventory Form"> |
+
+| Login | Patient Appointments |
+|:---:|:---:|
+| <img src="images/login%20form.png" width="400" alt="Login Form"> | <img src="images/patient%20appointments.png" width="400" alt="Patient Appointments"> |
+
+### Database Architecture
+<p align="center">
+  <img src="images/db%20diagram.png" width="800" alt="Database Diagram">
+</p>
+
+---
+
 ## Tech Stack
 
 | Category       | Technology                        |
